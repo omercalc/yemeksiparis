@@ -1,7 +1,7 @@
 import  { useState } from 'react';
 import { dishMenu } from "../../../constants/data";
 import { useNavigate } from 'react-router-dom';
-import ProductModal from "../../../uı/ProductModal";
+import ProductModal from "../../../ui/ProductModal";
 
 const Product = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
