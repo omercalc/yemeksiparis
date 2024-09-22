@@ -1,0 +1,32 @@
+[
+  {
+    "categoryId": "atistirmaliklar",
+    "name": "Atıştırmalıklar",
+    "count": 10
+  },
+  {
+    "categoryId": "corba",
+    "name": "Çorbalar",
+    "count": 8
+  },
+  {
+    "categoryId": "salata",
+    "name": "Salatalar",
+    "count": 12
+  },
+  {
+    "categoryId": "pizza",
+    "name": "Pizza",
+    "count": 6
+  },
+  {
+    "categoryId": "fastfood",
+    "name": "Fast Food",
+    "count": 15
+  },
+  {
+    "categoryId": "icecekler",
+    "name": "İçecekler",
+    "count": 20
+  }
+]
