@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage';
 import MenuPage from "./pages/MenuPage";
 import ErrorPage from "./pages/ErrorPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
+import CartPage from "./pages/CartPage";
 
 import "./App.css";
 
@@ -25,6 +26,10 @@ function App() {
         {
           path: "/product-details/:id",
           element: <ProductDetailsPage />
+        },
+        {
+          path: "/cart", // Yeni rota tanımlaması
+          element: <CartPage/> // 
         }
       ],
     },

@@ -1,7 +1,17 @@
-import {  NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import "remixicon/fonts/remixicon.css";
+import { CartContext } from '../../context/CartProvider';
+import { useContext } from 'react';
 
 const Navbar = () => {
+
+  const { cart } = useContext(CartContext);
+  const navigate = useNavigate();
+
+  const handleCartClick = () => {
+    navigate('/cart'); // Sepet sayfasına yönlendirme
+  };
+
   return (
     <nav className="bg-white shadow-md">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -37,15 +47,16 @@ const Navbar = () => {
           </li>
         </ul>
 
-        {/* Logo Ortada */}
         <div className="text-2xl font-bold text-gray-800">LOGO</div>
 
-        {/* Sağ Taraf */}
         <div className="flex space-x-6 items-center">
           <i className="ri-search-line text-gray-600 hover:text-black cursor-pointer text-xl"></i>
-          <i className="ri-shopping-cart-line text-gray-600 hover:text-black cursor-pointer text-xl">
+          <i
+            className="ri-shopping-cart-line text-gray-600 hover:text-black cursor-pointer text-xl"
+            onClick={handleCartClick}
+          >
             <sup className="text-sm inline-block px-1.5 text-white rounded-full bg-red-700 text-center">
-              0
+            {cart.length}
             </sup>
           </i>
           <i className="ri-user-line text-gray-600 hover:text-black cursor-pointer text-xl"></i>

@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { dishMenu } from "../../../constants/data";
 import { useNavigate } from 'react-router-dom';
 import ProductModal from "../../../ui/ProductModal";
@@ -6,6 +6,7 @@ import ProductModal from "../../../ui/ProductModal";
 const Product = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  
   const navigate = useNavigate();
 
   const openModal = (product) => {
@@ -49,7 +50,7 @@ const Product = () => {
           </div>
         </div>
       ))}
-      {isModalOpen && <ProductModal isOpen={isModalOpen} onClose={closeModal} product={selectedProduct} />}
+      {isModalOpen && <ProductModal isOpen={isModalOpen} onClose={closeModal} product={selectedProduct}  />}
     </div>
   );
 };
