@@ -7,13 +7,13 @@ const Footer = () => {
         </p>
         <div className="mt-4">
           <a
-            href="/privacy-policy"
+            href="#"
             className="text-gray-400 hover:text-white mx-2"
           >
             Gizlilik Politikası
           </a>
           <a
-            href="/terms-of-service"
+            href="#"
             className="text-gray-400 hover:text-white mx-2"
           >
             Hizmet Şartları
@@ -21,21 +21,21 @@ const Footer = () => {
         </div>
         <div className="mt-4 space-x-6">
           <a
-            href="https://www.facebook.com"
+            href="#"
             target="_blank"
             rel="noopener noreferrer"
           >
             <i className="ri-facebook-fill text-2xl text-blue-600"></i>
           </a>
           <a
-            href="https://www.instagram.com"
+            href="#"
             target="_blank"
             rel="noopener noreferrer"
           >
             <i className="ri-instagram-fill text-2xl text-pink-500"></i>
           </a>
           <a
-            href="https://www.twitter.com"
+            href="#"
             target="_blank"
             rel="noopener noreferrer"
           >
