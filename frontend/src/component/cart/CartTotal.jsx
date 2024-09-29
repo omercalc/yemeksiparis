@@ -1,10 +1,22 @@
-const CartTotal = () => {
+import { useContext } from 'react';
+import PropTypes from 'prop-types';
+import { CartContext } from '../../context/CartProvider';
+
+const CartTotal = ({ cartItems = [] }) => {
+  const { increaseQuantity, decreaseQuantity, removeFromCart } = useContext(CartContext);
+
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => {
+      const price = parseFloat(item.price) || 0;
+      const quantity = parseInt(item.quantity, 10) || 0;
+      return total + price * quantity;
+    }, 0).toFixed(2);
+  };
+
   return (
     <div className="container mx-auto pt-21 pb-24 py-10">
       <div className="flex flex-wrap">
-        {/* table-responsive */}
         <div className="w-full overflow-x-auto mb-22">
-          {/* cartTable */}
           <table className="min-w-full bg-white">
             <thead>
               <tr>
@@ -12,64 +24,52 @@ const CartTotal = () => {
                 <th scope="col" className="text-left uppercase font-bold border-t-0">Price</th>
                 <th scope="col" className="text-left uppercase font-bold border-t-0">Quantity</th>
                 <th scope="col" className="text-left uppercase font-bold border-t-0">Total</th>
+                <th scope="col" className="text-left uppercase font-bold border-t-0">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="align-middle">
-                <td className="flex items-center border-t-0 border-b px-0 py-6">
-                  <div className="w-16 h-20">
-                    <img src="http://placehold.it/70x80" alt="image description" className="w-full h-full object-cover" />
-                  </div>
-                  <span className="pl-2"><a href="#">Pellentesque aliquet</a></span>
-                </td>
-                <td className="font-bold border-t-0 border-b px-0 py-6">180.00 $</td>
-                <td className="border-t-0 border-b px-0 py-6"><input type="number" placeholder="1" className="w-full border rounded" /></td>
-                <td className="font-bold border-t-0 border-b px-0 py-6">180.00 $ <a href="#" className="fas fa-times float-right"></a></td>
-              </tr>
-              <tr className="align-middle">
-                <td className="flex items-center border-t-0 border-b px-0 py-6">
-                  <div className="w-16 h-20">
-                    <img src="http://placehold.it/70x80" alt="image description" className="w-full h-full object-cover" />
-                  </div>
-                  <span className="pl-2"><a href="#">Neque Porro Quisquam</a></span>
-                </td>
-                <td className="font-bold border-t-0 border-b px-0 py-6">180.00 $</td>
-                <td className="border-t-0 border-b px-0 py-6"><input type="number" placeholder="1" className="w-full border rounded" /></td>
-                <td className="font-bold border-t-0 border-b px-0 py-6">180.00 $ <a href="#" className="fas fa-times float-right"></a></td>
-              </tr>
-              <tr className="align-middle">
-                <td className="flex items-center border-t-0 border-b px-0 py-6">
-                  <div className="w-16 h-20">
-                    <img src="http://placehold.it/70x80" alt="image description" className="w-full h-full object-cover" />
-                  </div>
-                  <span className="pl-2"><a href="#">Aliquam Quaerat Voluptem</a></span>
-                </td>
-                <td className="font-bold border-t-0 border-b px-0 py-6">180.00 $</td>
-                <td className="border-t-0 border-b px-0 py-6"><input type="number" placeholder="1" className="w-full border rounded" /></td>
-                <td className="font-bold border-t-0 border-b px-0 py-6">180.00 $ <a href="#" className="fas fa-times float-right"></a></td>
-              </tr>
-              <tr className="align-middle">
-                <td className="flex items-center border-t-0 border-b px-0 py-6">
-                  <div className="w-16 h-20">
-                    <img src="http://placehold.it/70x80" alt="image description" className="w-full h-full object-cover" />
-                  </div>
-                  <span className="pl-2"><a href="#">Pellentesque aliquet</a></span>
-                </td>
-                <td className="font-bold border-t-0 border-b px-0 py-6">180.00 $</td>
-                <td className="border-t-0 border-b px-0 py-6"><input type="number" placeholder="1" className="w-full border rounded" /></td>
-                <td className="font-bold border-t-0 border-b px-0 py-6">180.00 $ <a href="#" className="fas fa-times float-right"></a></td>
-              </tr>
-              <tr className="align-middle">
-                <td className="flex items-center border-t-0 border-b px-0 py-6">
-                  <div className="w-16 h-20">
-                    <img src="http://placehold.it/70x80" alt="image description" className="w-full h-full object-cover" />
-                  </div>
-                  <span className="pl-2"><a href="#">Sint Incidunt Utlabore</a></span>
-                </td>
-                <td className="font-bold border-t-0 border-b px-0 py-6">180.00 $</td>
-                <td className="border-t-0 border-b px-0 py-6"><input type="number" placeholder="1" className="w-full border rounded" /></td>
-                <td className="font-bold border-t-0 border-b px-0 py-6">180.00 $ <a href="#" className="fas fa-times float-right"></a></td>
-              </tr>
+              {cartItems.map((item, index) => (
+                <tr key={index} className="align-middle">
+                  <td className="flex items-center border-t-0 border-b px-0 py-6">
+                    <div className="w-16 h-20">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                    </div>
+                    <span className="pl-2"><a href="#">{item.name}</a></span>
+                  </td>
+                  <td className="font-bold border-t-0 border-b px-0 py-6">{parseFloat(item.price).toFixed(2)} $</td>
+                  <td className="border-t-0 border-b px-0 py-6">
+                    <div className="flex items-center">
+                      <button
+                        onClick={() => decreaseQuantity(item.id)}
+                        className="px-2 py-1 bg-gray-300 text-gray-800 rounded"
+                      >
+                        -
+                      </button>
+                      <input
+                        type="number"
+                        value={parseInt(item.quantity, 10) || 0}
+                        className="w-12 mx-2 border rounded text-center"
+                        readOnly
+                      />
+                      <button
+                        onClick={() => increaseQuantity(item.id)}
+                        className="px-2 py-1 bg-gray-300 text-gray-800 rounded"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </td>
+                  <td className="font-bold border-t-0 border-b px-0 py-6">{(parseFloat(item.price) * (parseInt(item.quantity, 10) || 0)).toFixed(2)} $</td>
+                  <td className="border-t-0 border-b px-0 py-6">
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="px-2 py-1 bg-red-500 text-white rounded"
+                    >
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -97,13 +97,22 @@ const CartTotal = () => {
         <div className="w-full md:w-1/2">
           <div className="flex justify-between">
             <strong className="font-bold uppercase mb-1">Subtotal</strong>
-            <strong className="font-bold uppercase mb-1">900.00 $</strong>
+            <strong className="font-bold uppercase mb-1">{calculateTotal()} $</strong>
           </div>
           <a href="#" className="btn bg-blue-500 text-white font-bold uppercase w-full rounded py-3 px-4 hover:bg-blue-700 text-center">Proceed to Checkout</a>
         </div>
       </div>
     </div>
   );
+};
+
+CartTotal.propTypes = {
+  cartItems: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    quantity: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    image: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 export default CartTotal;

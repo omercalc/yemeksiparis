@@ -1,12 +1,15 @@
-import CartTotal from "../component/cart/CartTotal"
-
+import  { useContext } from 'react';
+import CartTotal from '../component/Cart/CartTotal';
+import { CartContext } from '../context/CartProvider';
 
 const CartPage = () => {
+  const { cart } = useContext(CartContext);
+
   return (
     <div>
-      <CartTotal />
+      <CartTotal cartItems={cart} />
     </div>
-  )
-}
+  );
+};
 
-export default CartPage
+export default CartPage;

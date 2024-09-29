@@ -4,7 +4,11 @@ import { useContext } from "react";
 import { CartContext } from "../context/CartProvider";
 
 const ProductModal = ({ isOpen, onClose, product }) => {
-  const { handleAddToCart } = useContext(CartContext);
+  const { cart, handleAddToCart } = useContext(CartContext);
+
+  const filteredCart = cart.find((cart) => cart.id === product.id);
+
+  console.log(filteredCart);
 
   if (!isOpen) return null;
 
@@ -74,7 +78,8 @@ const ProductModal = ({ isOpen, onClose, product }) => {
           </button>
           <button
             onClick={() => {
-              handleAddToCart(product);
+              handleAddToCart({ ...product, quantity: 1 });
+              onClose(); 
             }}
             className="mt-4 px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-700"
           >
