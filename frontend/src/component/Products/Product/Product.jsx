@@ -23,7 +23,7 @@ const Product = () => {
     <div className="w-3/4 grid grid-cols-3 gap-4">
       {dishMenu.map((item) => (
         <div key={item.id} className="border p-4 rounded-lg relative">
-          <div className="w-full h-64 bg-gray-300 flex items-center justify-center">
+          <div className=" w-full h-80 bg-gray-300 flex items-center justify-center">
             <img src={item.image} alt={item.dish} />
           </div>
           <h3 className="mt-4 font-semibold">{item.dish}</h3>

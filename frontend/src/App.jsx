@@ -1,12 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
+import AdminLayout from "./layouts/AdminLayout";
 import HomePage from './pages/HomePage';
 import MenuPage from "./pages/MenuPage";
 import ErrorPage from "./pages/ErrorPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CartPage from "./pages/CartPage";
+import AdminHomePage from "./pages/Admin/AdminHomePage";
 
 import "./App.css";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -28,9 +32,29 @@ function App() {
           element: <ProductDetailsPage />
         },
         {
-          path: "/cart", // Yeni rota tanımlaması
+          path: "/cart",
           element: <CartPage/> // 
+        },
+        {
+          path: "/login",
+          element: <LoginPage />,
+        },
+        {
+          path: "/register",
+          element: <RegisterPage />,
         }
+      ],
+    },
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "/admin",
+          element: <AdminHomePage />,
+        },
+        
       ],
     },
   ]);
@@ -43,3 +67,4 @@ function App() {
 }
 
 export default App;
+

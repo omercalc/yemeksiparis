@@ -1,15 +1,14 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from "react-router-dom";
 import "remixicon/fonts/remixicon.css";
-import { CartContext } from '../../context/CartProvider';
-import { useContext } from 'react';
+import { CartContext } from "../../context/CartProvider";
+import { useContext } from "react";
 
 const Navbar = () => {
-
   const { cart } = useContext(CartContext);
   const navigate = useNavigate();
 
   const handleCartClick = () => {
-    navigate('/cart'); // Sepet sayfasına yönlendirme
+    navigate("/cart"); // Sepet sayfasına yönlendirme
   };
 
   return (
@@ -18,30 +17,42 @@ const Navbar = () => {
         {/* Sol Taraf */}
         <ul className="flex space-x-6">
           <li>
-            <NavLink to="/" className={({ isActive }) =>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
                 `hover:text-red-400 ${isActive && "text-red-400"} `
-          } >
+              }
+            >
               Anasayfa
             </NavLink>
           </li>
           <li>
-            <NavLink to="/menu" className={({ isActive }) =>
+            <NavLink
+              to="/menu"
+              className={({ isActive }) =>
                 `hover:text-red-400 ${isActive && "text-red-400"} `
-          } >
+              }
+            >
               Menüler
             </NavLink>
           </li>
           <li>
-            <NavLink to="/contact" className={({ isActive }) =>
+            <NavLink
+              to="/contact"
+              className={({ isActive }) =>
                 `hover:text-red-400 ${isActive && "text-red-400"} `
-          } >
+              }
+            >
               İletişim
             </NavLink>
           </li>
           <li>
-            <NavLink to="/about" className={({ isActive }) =>
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
                 `hover:text-red-400 ${isActive && "text-red-400"} `
-          } >
+              }
+            >
               Hakkımızda
             </NavLink>
           </li>
@@ -56,10 +67,12 @@ const Navbar = () => {
             onClick={handleCartClick}
           >
             <sup className="text-sm inline-block px-1.5 text-white rounded-full bg-red-700 text-center">
-            {cart.length}
+              {cart.length}
             </sup>
           </i>
-          <i className="ri-user-line text-gray-600 hover:text-black cursor-pointer text-xl"></i>
+          <NavLink to="/login">
+            <i className="ri-user-line text-gray-600 hover:text-black cursor-pointer text-xl"></i>
+          </NavLink>
         </div>
       </div>
     </nav>
