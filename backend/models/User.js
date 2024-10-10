@@ -9,10 +9,16 @@ const UserSchema = mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
+      match: [
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+        "Lütfen geçerli bir e-posta adresi girin",
+      ],
     },
     password: {
       type: String,
       required: true,
+      minlength: [6, "Şifre en az 6 karakter olmalıdır"],
     },
     role: {
       type: String,
@@ -23,7 +29,6 @@ const UserSchema = mongoose.Schema(
       type: String,
     },
   },
-
   {
     timestamps: true,
   }

@@ -1,21 +1,54 @@
 import { useState } from "react";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
+  const navigate = useNavigate();
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
-  console.log(formData);
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirmPassword) {
+      message.error("Şifreler eşleşmiyor!");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        message.success("Kayıt başarılı!");
+        navigate("/login");
+      } else {
+        const errorData = await response.json().catch(() => null);
+        message.error(errorData?.error || "Kayıt başarısız!");
+      }
+    } catch (error) {
+      console.error("Hata:", error);
+      message.error("Bir hata oluştu. Lütfen tekrar deneyin.");
+    }
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-1">
@@ -32,30 +65,34 @@ const RegisterPage = () => {
               </h2>
               <p className="mt-2 text-sm leading-6 text-gray-500">
                 Zaten bir hesabınız var mı?{" "}
-                <a
-                  href="#"
+                <button
+                  onClick={() => navigate("/login")}
                   className="font-semibold text-indigo-600 hover:text-indigo-500"
                 >
                   Giriş Yapın
-                </a>
+                </button>
               </p>
             </div>
 
             <div className="mt-10">
-              <form action="#" method="POST" className="space-y-6">
+              <form
+                onSubmit={handleRegister}
+                method="POST"
+                className="space-y-6"
+              >
                 <div>
                   <label
-                    htmlFor="name"
+                    htmlFor="username"
                     className="block text-sm font-medium leading-6 text-gray-900 pl-2"
                   >
                     İsim
                   </label>
                   <div className="mt-2">
                     <input
-                      id="name"
-                      name="name"
                       type="text"
-                      required
+                      id="username"
+                      name="username"
+                      value={formData.username}
                       onChange={handleInputChange}
                       autoComplete="name"
                       className="pl-2 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -72,10 +109,10 @@ const RegisterPage = () => {
                   </label>
                   <div className="mt-2">
                     <input
+                      type="email"
                       id="email"
                       name="email"
-                      type="email"
-                      required
+                      value={formData.email}
                       onChange={handleInputChange}
                       autoComplete="email"
                       className="pl-2 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -92,10 +129,10 @@ const RegisterPage = () => {
                   </label>
                   <div className="mt-2">
                     <input
+                      type="password"
                       id="password"
                       name="password"
-                      type="password"
-                      required
+                      value={formData.password}
                       onChange={handleInputChange}
                       autoComplete="new-password"
                       className="pl-2 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -105,17 +142,17 @@ const RegisterPage = () => {
 
                 <div>
                   <label
-                    htmlFor="confirm-password"
+                    htmlFor="confirmPassword"
                     className="block text-sm font-medium leading-6 text-gray-900 pl-2"
                   >
                     Şifreyi Onaylayın
                   </label>
                   <div className="mt-2">
                     <input
-                      id="confirm-password"
-                      name="confirm-password"
                       type="password"
-                      required
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      value={formData.confirmPassword}
                       onChange={handleInputChange}
                       autoComplete="new-password"
                       className="pl-2 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
