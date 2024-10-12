@@ -1,18 +1,21 @@
-const express = require("express");
-const router = express.Router();
+const express   = require("express");
+const router    = express.Router();
+
 
 // diğer rota içe aktarma
 const categoryRoute = require("./categories.js");
-const registerRoute = require("./register.js");
-const loginRoute = require("./login.js");
+const authRoute = require("./auth.js");
 const productRoute = require("./products.js");
 const couponRoute = require("./coupons.js");
+const userRoute = require("./users.js");
 
 // her rotayı ilgili yol altında kullanma
+
 router.use("/categories", categoryRoute);
-router.use("/register", registerRoute);
-router.use("/login", loginRoute);
+router.use("/auth", authRoute);
 router.use("/products", productRoute);
 router.use("/coupons", couponRoute);
+router.use("/users", userRoute);
+
 
 module.exports = router;

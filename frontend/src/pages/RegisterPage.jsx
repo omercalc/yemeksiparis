@@ -7,45 +7,36 @@ const RegisterPage = () => {
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
-
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
+
   const handleRegister = async (e) => {
     e.preventDefault();
-
-    if (formData.password !== formData.confirmPassword) {
-      message.error("Şifreler eşleşmiyor!");
-      return;
-    }
-
     try {
-      const response = await fetch("http://localhost:5000/api/register", {
+      const response = await fetch(`${apiUrl}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-
       if (response.ok) {
-        message.success("Kayıt başarılı!");
-        navigate("/login");
+        const data = await response.json();
+
+        localStorage.setItem("user", JSON.stringify(data));
+        message.success("Kayıt başarılı.");
+        navigate("/");
       } else {
-        const errorData = await response.json().catch(() => null);
-        message.error(errorData?.error || "Kayıt başarısız!");
+        message.error("Kayıt başarısız.");
       }
     } catch (error) {
-      console.error("Hata:", error);
-      message.error("Bir hata oluştu. Lütfen tekrar deneyin.");
+      console.log("Giriş hatası:", error);
     }
   };
 
@@ -93,7 +84,7 @@ const RegisterPage = () => {
                       id="username"
                       name="username"
                       value={formData.username}
-                      onChange={handleInputChange}
+                      onChange={handleInputChange||""}
                       autoComplete="name"
                       className="pl-2 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
@@ -113,7 +104,7 @@ const RegisterPage = () => {
                       id="email"
                       name="email"
                       value={formData.email}
-                      onChange={handleInputChange}
+                      onChange={handleInputChange ||""}
                       autoComplete="email"
                       className="pl-2 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
@@ -133,7 +124,7 @@ const RegisterPage = () => {
                       id="password"
                       name="password"
                       value={formData.password}
-                      onChange={handleInputChange}
+                      onChange={handleInputChange ||""}
                       autoComplete="new-password"
                       className="pl-2 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     />
@@ -152,7 +143,7 @@ const RegisterPage = () => {
                       type="password"
                       id="confirmPassword"
                       name="confirmPassword"
-                      value={formData.confirmPassword}
+                      value={formData.confirmPassword||""}
                       onChange={handleInputChange}
                       autoComplete="new-password"
                       className="pl-2 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

@@ -8,9 +8,12 @@ import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CartPage from "./pages/CartPage";
 import AdminHomePage from "./pages/Admin/AdminHomePage";
 
-import "./App.css";
+
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import AdminUserPage from "./pages/Admin/AdminUserPage";
+
+import "./App.css";
 
 function App() {
   const router = createBrowserRouter([
@@ -54,6 +57,10 @@ function App() {
           path: "/admin",
           element: <AdminHomePage />,
         },
+        {
+          path: "/admin/users",
+          element: <AdminUserPage />,
+        }
         
       ],
     },

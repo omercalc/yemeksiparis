@@ -13,8 +13,20 @@ import {
 
 const { Sider, Header, Content } = Layout;
 
+const getUserRole = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  return user ? user.role : null;
+};
+
 const AdminLayout = () => {
   const navigate = useNavigate();
+  const userRole = getUserRole();
+
+  if (userRole !== "admin") {
+    window.location.href = "/";
+    return null;
+  }
+
   const menuItems = [
     {
       key: "1",
@@ -149,7 +161,7 @@ const AdminLayout = () => {
           >
             <h2>Admin Paneli</h2>
           </div>
-        </Header> 
+        </Header>
         <Content
           className="site-layout-background"
           style={{
@@ -163,7 +175,5 @@ const AdminLayout = () => {
     </Layout>
   );
 };
-
-
 
 export default AdminLayout;

@@ -1,14 +1,28 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "remixicon/fonts/remixicon.css";
 import { CartContext } from "../../context/CartProvider";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const Navbar = () => {
   const { cart } = useContext(CartContext);
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   const handleCartClick = () => {
-    navigate("/cart"); // Sepet sayfasına yönlendirme
+    navigate("/cart");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/");
   };
 
   return (
@@ -70,9 +84,20 @@ const Navbar = () => {
               {cart.length}
             </sup>
           </i>
-          <NavLink to="/login">
-            <i className="ri-user-line text-gray-600 hover:text-black cursor-pointer text-xl"></i>
-          </NavLink>
+          {!user ? (
+            <NavLink to="/login">
+              <i className="ri-user-line text-gray-600 hover:text-black cursor-pointer text-xl"></i>
+            </NavLink>
+          ) : (
+            <button
+              className="ri-logout-box-line text-gray-600 hover:text-black cursor-pointer text-xl"
+              onClick={() => {
+                if (window.confirm("Çıkış yapmak istediğinize emin misiniz?")) {
+                  handleLogout();
+                }
+              }}
+            ></button>
+          )}
         </div>
       </div>
     </nav>

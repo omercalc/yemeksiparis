@@ -1,7 +1,51 @@
+import { useState } from "react";
+import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`${apiUrl}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        const data = await response.json();
+
+        localStorage.setItem("user", JSON.stringify(data));
+        message.success("Giriş başarılı.");
+        
+        if (data.role === "admin") {
+          window.location.href = "/admin";
+        } else {
+          navigate("/");
+          window.location.reload(); 
+        }
+      } else {
+        message.error("Giriş başarısız.");
+      }
+    } catch (error) {
+      console.log("Giriş hatası:", error);
+    }
+  };
+  
+
   return (
     <>
       <div className="flex min-h-full flex-1">
@@ -29,7 +73,7 @@ const LoginPage = () => {
 
             <div className="mt-10">
               <div>
-                <form action="#" method="POST" className="space-y-6">
+                <form onSubmit={handleLogin} className="space-y-6">
                   <div>
                     <label
                       htmlFor="email"
@@ -42,8 +86,8 @@ const LoginPage = () => {
                         id="email"
                         name="email"
                         type="email"
+                        onChange={handleInputChange}
                         required
-                        autoComplete="email"
                         className="pl-2  block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
@@ -61,8 +105,8 @@ const LoginPage = () => {
                         id="password"
                         name="password"
                         type="password"
+                        onChange={handleInputChange}
                         required
-                        autoComplete="current-password"
                         className="pl-2 block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
