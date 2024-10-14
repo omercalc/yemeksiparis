@@ -45,9 +45,9 @@ const AdminLayout = () => {
         {
           key: "3",
           label: "Kategori Listesi",
-          path: "/admin/categories",
+          path: "/admin/kategoriler",
           onClick: () => {
-            navigate(`/admin/categories`);
+            navigate(`/admin/kategoriler`);
           },
         },
         {

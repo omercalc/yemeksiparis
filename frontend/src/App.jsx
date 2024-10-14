@@ -6,14 +6,15 @@ import MenuPage from "./pages/MenuPage";
 import ErrorPage from "./pages/ErrorPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CartPage from "./pages/CartPage";
-import AdminHomePage from "./pages/Admin/AdminHomePage";
-
-
+import HomePages from "./pages/Admin/HomesPage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import AdminUserPage from "./pages/Admin/AdminUserPage";
+import UserPage from "./pages/Admin/UserPage";
+import CategoryPage from "./pages/Admin/Categories/CategoryPage";
+import UpdateCategoryPage from "./pages/Admin/Categories/UpdateCategoryPage";
 
 import "./App.css";
+
 
 function App() {
   const router = createBrowserRouter([
@@ -36,7 +37,7 @@ function App() {
         },
         {
           path: "/cart",
-          element: <CartPage/> // 
+          element: <CartPage/> 
         },
         {
           path: "/login",
@@ -55,13 +56,20 @@ function App() {
       children: [
         {
           path: "/admin",
-          element: <AdminHomePage />,
+          element: <HomePages />,
+        },
+        {
+          path: "/admin/kategoriler",
+          element: <CategoryPage />,
+        },
+        {
+          path: "/admin/kategoriler/update/:id",
+          element: <UpdateCategoryPage/>,
         },
         {
           path: "/admin/users",
-          element: <AdminUserPage />,
+          element: <UserPage />,
         }
-        
       ],
     },
   ]);
@@ -74,4 +82,3 @@ function App() {
 }
 
 export default App;
-

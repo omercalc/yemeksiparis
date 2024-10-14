@@ -1,4 +1,4 @@
-import { message, Table } from "antd";
+import { message, Table, Button, Popconfirm } from "antd";
 import { useCallback, useEffect, useState } from "react";
 
 const AdminUserPage = () => {
@@ -12,12 +12,30 @@ const AdminUserPage = () => {
         const data = await response.json();
         setDataSource(data);
       } else {
-        message.error("Giriş başarısız.");
+        message.error("Veri Bulunamadı.");
       }
     } catch (error) {
-      console.log("Giriş hatası:", error);
+      console.log("Veri Hatası:", error);
     }
   }, [apiUrl]);
+  
+  const deleteUser = async (userEmail) => {
+    try {
+      const response = await fetch(`${apiUrl}/api/users/${userEmail}`, {
+        method: "DELETE",
+      });
+      if (response.ok) {
+        message.success("Kullanıcı başarıyla silindi.");
+        fetchUsers();
+      } else {
+        message.error("Kullanıcı silme başarısız.");
+      }
+    } catch (error) {
+      console.log("Kullanıcı silme hatası:", error);
+    }
+};
+  
+  
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
@@ -50,6 +68,22 @@ const AdminUserPage = () => {
       dataIndex: "role",
       key: "role",
     },
+    {
+      title: "Actions",
+      dataIndex: "actions",
+      key: "actions",
+      render: (text, record) => (
+        <Popconfirm
+        title="Kullanıcıyı Sil"
+        description="Kullanıcıyı Silmek İstediğinize Emin misiniz?"
+        okText="Evet"
+        cancelText="Hayır"
+        onConfirm={() => deleteUser(record.email) }
+      >
+        <Button danger>SİL</Button>
+      </Popconfirm>
+      ),
+    },
   ];
 
   return (
@@ -59,7 +93,6 @@ const AdminUserPage = () => {
         columns={columns}
         rowKey={(record) => record._id}
       />
-      ;
     </div>
   );
 };
